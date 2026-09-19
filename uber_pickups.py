@@ -7,7 +7,13 @@ number = st.number_input(
 )
 st.write("The current number is ", number)
 
-number = st.number_input(
+number2 = st.number_input(
     "Type a second number", value=None, placeholder="Type a number"
 )
 st.write("The current number is ", number)
+
+if st.button("add"):
+    st.write(number + number2)
+
+if st.button("subtract"):
+    st.write(number - number2)
