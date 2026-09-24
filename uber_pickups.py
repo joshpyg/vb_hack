@@ -6,16 +6,23 @@ st.title('Pokemon')
 BASE_URL = "https://pokeapi.co/api/v2/pokemon"
 
 def fetch_pokemon(name_or_id: str, timeout: float = 6) -> dict:
+    """Raise requests.HTTPError if the name/id doesn't exist (404) or on network errors."""
     r = requests.get(f"{BASE_URL}/{str(name_or_id).strip().lower()}", timeout=timeout)
     r.raise_for_status()
     return r.json()
 
+st.title("Pokemon Search")
 
-pokemon = st.text_input("Enter pokemon name/id")
-res = fetch_pokemon(pokemon)
+name = st.text_input("Name")
 
 if st.button("Search"):
-    st.write("Id: ", res["id"])
-    st.write("Name: ", res["name"])
-    st.write("Weight:", res["weight"])
-    st.write("Ability:", res["ability"])
+    try:
+            res = fetch_pokemon(name)
+
+            st.write("ID:", res["id"])
+            st.write("Name:", res["name"])
+            st.write("Weight:", res["weight"])
+            st.write("Ability:", res["abilities"][0]["ability"]["name"])
+    except requests.HTTPError:
+            st.error("Pokémon not found!")
+
