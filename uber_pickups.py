@@ -18,3 +18,4 @@ if st.button("Search"):
     st.write("Id: ", res["id"])
     st.write("Name: ", res["name"])
     st.write("Weight:", res["weight"])
+    st.write("Ability:", res["ability"])
