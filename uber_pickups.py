@@ -1,29 +1,13 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import requests
 
-number1 = st.number_input(
-    "Enter the first number", value=None, placeholder = "Type a number..."
-)
-number2 = st.number_input(
-    "Enter the first number", value=None, placeholder = "Type a number..."
-)
-operation = st.selectbox(
-    "choose an oeration",
-    ["Add", "Subtract", "Multiply", "Divide"]
-)
-if number1 is not None and number2 is not None:
+BASE_URL = "https://pokeapi.co/api/v2/pokemon"
 
-    if operation == "Add":
-        answer = number1 + number2
 
-    elif operation == "Subtract":
-        answer = number1 - number2
-
-    elif operation == "Multiply":
-        answer = number1 * number2
-
-    elif operation == "Divide":
-        answer = number1 / number2
-
-    st.write("Answer:", answer)
+def fetch_pokemon(name_or_id: str, timeout: float = 6) -> dict:
+    """Raise requests.HTTPError if the name/id doesn't exist (404) or on network errors."""
+    r = requests.get(f"{BASE_URL}/{str(name_or_id).strip().lower()}", timeout=timeout)
+    r.raise_for_status()
+    return r.json()
