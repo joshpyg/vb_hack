@@ -24,9 +24,15 @@ if st.button("Search"):
             height = res["height"] / 10
             weight = res["weight"] / 10
 
+            image = res["sprites"]["other"]["official-artwork"]["front_default"]
+            if image is None:
+                image = res["sprites"]["front_default"]
+
             types = []
             for t in res["types"]:
                 types.append(t["type"]["name"].capitalize())
+
+            st.image(image, width = 100)
 
             st.subheader("#" + str(id) + " " + poke_name)
             st.write("Type: " + " / ".join(types))
