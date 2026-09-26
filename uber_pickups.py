@@ -23,6 +23,12 @@ if st.button("Search"):
             st.write("Name:", res["name"])
             st.write("Weight:", res["weight"])
             st.write("Ability:", res["abilities"][0]["ability"]["name"])
+
+            st.subheader("Base stats")
+            stats = {s["stat"]["name"]: s["base_stat"] for s in res.get("stats", [])}
+            cols = st.columns(6)
+            order = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
+            for col, key in zip(cols, order):
+                col.metric(key.replace("-", " ").title(), stats.get(key, "-"))
     except requests.HTTPError:
             st.error("Pokémon not found!")
-
